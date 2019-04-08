@@ -3,6 +3,8 @@
         <el-pagination
                 small
                 :page-size="size"
+                :page-sizes="sizes"
+                @size-change="handleSizeChange"
                 @current-change="handleCurrentChange"
                 layout="total, prev, pager, next, jumper"
                 :total="total">
@@ -15,20 +17,29 @@
         props: {
             total: { type: Number },
             size: { type: Number },
+            sizes: { type: Array },
         },
         name: 'pagination',
         data() {
             return {
-
+                page:{
+                    size:'',
+                    index:'',
+                }
             };
         },
         methods: {
             handleCurrentChange(val) {
-                this.$emit('getPageIndex', val);
+                this.page.index = val;
+                this.$emit('getPageMsg', this.page);
+            },
+            handleSizeChange(val) {
+                this.page.size = val;
+                this.$emit('getPageMsg', this.page);
             }
         },
         created() {
-            console.log(this.total, this.size);
+            console.log(this.total, this.size,this.sizes);
         }
     };
 </script>
